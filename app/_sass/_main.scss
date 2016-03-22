@@ -1,0 +1,106 @@
+@import "variables";
+
+@import "vendor/font-awesome";
+@import "vendor/bootstrap";
+
+@import "vendor/datatables.min";
+
+.site-header {
+  padding: 1em;
+  background-color: #f3f3f3;
+  border-bottom: 1px solid darken(#f3f3f3, 10%);
+
+  h1 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+}
+
+table.dataTable {
+  margin-top: 0 !important;
+}
+
+.table {
+  th, td {
+    vertical-align: middle !important;
+    text-align: center;
+  }
+}
+
+.term {
+  text-align: center;
+}
+
+.term__name {
+  display: block;
+}
+
+.term__dates {
+  display: block;
+  font-weight: normal;
+  font-size: $font-size-small;
+  color: #999;
+}
+
+.person {
+  background-color: $color-light-blue;
+  border: 1px solid darken($color-light-blue, 10%);
+  border-radius: $border-radius-base;
+  padding: 0.3em;
+  cursor: pointer;
+  @include transition(background-color 0.1s, border-color 1s);
+
+  &:hover {
+    background-color: darken($color-light-blue, 5%);
+    border-color: darken($color-light-blue, 15%);
+  }
+}
+
+.person__name {
+  display: block;
+}
+
+.person__group {
+  display: block;
+  font-size: $font-size-small;
+  color: mix($color-light-blue, $text-color, 50%);
+
+  display: none; // hide for now
+}
+
+.person__dates {
+  display: block;
+  font-size: $font-size-small;
+  color: mix($color-light-blue, $text-color, 50%);
+}
+
+.person--new {
+  background-color: $color-light-green;
+  border-color: mix($color-dark-green, $color-light-green, 20%);
+  border-radius: $border-radius-base;
+
+  display: none;
+
+  td:hover &,
+  .person-group--active & {
+    display: block;
+  }
+
+  &:hover {
+    background-color: mix($color-dark-green, $color-light-green, 10%);
+    border-color: mix($color-dark-green, $color-light-green, 30%);
+  }
+}
+
+.person-group {
+  display: flex;
+  align-items: stretch;
+
+  .person {
+    flex: 1 0 auto;
+  }
+
+  .person + .person {
+    margin-left: 1em;
+  }
+}

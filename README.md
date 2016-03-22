@@ -14,3 +14,13 @@ Then, to serve the site:
     ../vendor/bin/jekyll serve
 
 The site will be available at http://0.0.0.0:4000
+
+### Note about DataTables
+
+This project includes a custom build of the DataTables jQuery plugin. See `/assets/javascript/vendor/datatables.min.js` for a download link replicating the build.
+
+For reference, in addition to the stock DataTables scripts and styles, the following were included in the build:
+
+* Bootstrap styling (without library)
+* FixedColumns extension
+* FixedHeader extension
