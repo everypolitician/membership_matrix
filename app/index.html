@@ -500,10 +500,10 @@ bodyclass: "home"
 <script type="text/html" id="template-row">
     <tr>
         <th><%= area.name %></th>
-      <% _.each(memberships, function(memberships_in_term){ %>
+      <% _.each(memberships, function(obj){ %>
         <td>
             <div class="person-group">
-              <% _.each(memberships_in_term, function(membership, i){ %>
+              <% _.each(obj.memberships, function(membership, i){ %>
                 <%= renderTemplate('template-person', {
                     person: membership.person,
                     group: membership.group,
@@ -513,7 +513,7 @@ bodyclass: "home"
                     legislative_period_id: membership.legislative_period_id
                 }) %>
               <% }) %>
-                <div class="person person--new">New</div>
+                <div class="person person--new" data-area_id="<%= area.id %>" data-legislative_period_id="<%= obj.legislative_period_id %>">New</div>
             </div>
         </td>
       <% }) %>

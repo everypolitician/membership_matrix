@@ -31,13 +31,16 @@ $(function(){
         var area_memberships = memberships_by_area_id[area.id];
 
         var area_memberships_by_term = _.map(events, function(event){
-          return _.filter(area_memberships, function(membership){
-            return membership.legislative_period_id === event.id;
-          });
+          return {
+            legislative_period_id: event.id,
+            memberships: _.filter(area_memberships, function(membership){
+              return membership.legislative_period_id === event.id;
+            })
+          }
         });
 
-        _.each(area_memberships_by_term, function(area_memberships, term_id){
-          _.each(area_memberships, function(membership){
+        _.each(area_memberships_by_term, function(obj){
+          _.each(obj.memberships, function(membership){
             membership.person = people_by_id[membership.person_id];
             membership.group = groups_by_id[membership.on_behalf_of_id];
           });
