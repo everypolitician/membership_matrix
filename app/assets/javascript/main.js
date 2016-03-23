@@ -67,11 +67,6 @@ $(function(){
       dom: "tr" // https://datatables.net/reference/option/dom
     });
 
-    $table.on('click', '.person', function(){
-      // $(this).popover('toggle');
-      $(this).parents('.person-group').toggleClass('person-group--active');
-    });
-
     $('.person').popover({
       template: renderTemplate('template-popover'),
       placement: "bottom",
@@ -86,6 +81,14 @@ $(function(){
           on_behalf_of_id: $person.data('on_behalf_of_id')
         });
       }
+
+    }).on('show.bs.popover', function(e){
+      // Remove existing popovers on the page
+      $('.popover').each(function(){
+        $person = $(this).data('bs.popover').$element;
+        $person.popover('hide');
+      });
+
     }).on('shown.bs.popover', function(e){
       var $person = $(this);
       var $popover = $(this).data('bs.popover').$tip;
@@ -94,7 +97,13 @@ $(function(){
       if( $person.is('.person--new') ){
         $popover.find('.popover-footer').remove();
       }
+      $person.parents('.person-group').addClass('person-group--active');
       $person.find('#name').focus();
+
+    }).on('hide.bs.popover', function(e){
+      $person = $(this).data('bs.popover').$element;
+      $person.parents('.person-group').removeClass('person-group--active');
+
     });
   });
 
