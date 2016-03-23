@@ -114,15 +114,9 @@ $(function(){
     var $person = $popover.data('person');
     var $pg = $person.parents('.person-group');
 
-    var settings = {
-      personName: $person.find('.person__name').text(),
-      personGroup: $person.find('.person__group').text()
-    }
+    $person.popover('hide');
 
-    $person.remove();
-
-    var html = renderTemplate('template-person', settings);
-    $(html).prependTo($pg).clone().prependTo($pg);
+    $pg.append( $person.clone() );
   });
 
   $(document).on('click', '.js-remove-person', function(){
