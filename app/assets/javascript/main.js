@@ -77,8 +77,6 @@ $(function(){
       content: function(){
         var $person = $(this);
         return renderTemplate('template-edit-person', {
-          personName: $person.find('.person__name').text(),
-          personGroup: $person.find('.person__group').text(),
           people: data.persons,
           organizations: data.organizations, // TODO: this also contains the legislature!!
           person_id: $person.data('person_id'),
@@ -101,7 +99,7 @@ $(function(){
 
   $(document).on('click', '.js-split-person', function(){
     var $popover = $(this).parents('.popover');
-    var $person = $popover.data('person').$tip;
+    var $person = $popover.data('person');
     var $pg = $person.parents('.person-group');
 
     var settings = {
@@ -121,7 +119,25 @@ $(function(){
   });
 
   $(document).on('click', '.js-save-person', function(){
+    var $popover = $(this).parents('.popover');
+    var $person = $popover.data('person');
 
+    var thing_to_send = {
+      before: {
+        person_id: $person.data('person_id'),
+        on_behalf_of_id: $person.data('on_behalf_of_id'),
+        area_id: $person.data('area_id'),
+        legislative_period_id: $person.data('legislative_period_id')
+      },
+      after: {
+        person_id: $popover.find('#person_id').val(),
+        on_behalf_of_id: $popover.find('#on_behalf_of_id').val(),
+        area_id: $person.data('area_id'),
+        legislative_period_id: $person.data('legislative_period_id')
+      }
+    }
+
+    console.log(thing_to_send);
   });
 
 });

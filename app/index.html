@@ -543,16 +543,16 @@ bodyclass: "home"
 
 <script type="text/html" id="template-edit-person">
     <div class="form-group">
-        <label for="personName">Name:</label>
-        <select id="personName" class="form-control">
+        <label for="person_id">Name:</label>
+        <select id="person_id" class="form-control">
           <% _.each(people, function(person){ %>
             <option value="<%= person.id %>" <% if(person_id === person.id){ %>selected<% } %>><%= person.name %></option>
           <% })%>
         </select>
     </div>
     <div class="form-group">
-        <label for="personGroup">Group:</label>
-        <select id="personGroup" class="form-control">
+        <label for="on_behalf_of_id">Group:</label>
+        <select id="on_behalf_of_id" class="form-control">
           <% _.each(organizations, function(organization){ %>
             <option value="<%= organization.id %>" <% if(on_behalf_of_id === organization.id){ %>selected<% } %>><%= organization.name %></option>
           <% })%>
