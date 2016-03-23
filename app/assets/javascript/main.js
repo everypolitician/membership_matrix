@@ -16,20 +16,26 @@ $(function(){
   // "events" is terms
 
   $.ajax({
-    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/fb9382f/data/Zimbabwe/Assembly/ep-popolo-v1.0.json',
+    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/74d4f01/data/Germany/Bundestag/ep-popolo-v1.0.json',
     dataType: 'json'
   }).done(function(data){
     console.log(data);
 
+    var events = data.events.reverse();
+
     var tableHtml = renderTemplate('template-table', {
-      terms: data.events.reverse(),
+      terms: events,
       rows: _.map(data.areas, function(area){
 
         var area_memberships = _.filter(data.memberships, function(membership){
           return membership.area_id === area.id;
         });
 
-        var area_memberships_by_term = _.groupBy(area_memberships, 'legislative_period_id');
+        var area_memberships_by_term = _.map(events, function(event){
+          return _.filter(area_memberships, function(membership){
+            return membership.legislative_period_id === event.id;
+          });
+        });
 
         _.each(area_memberships_by_term, function(area_memberships, term_id){
           _.each(area_memberships, function(membership){
