@@ -489,7 +489,8 @@ bodyclass: "home"
         <tbody>
           <% _.each(rows, function(row, i){ %>
             <%= renderTemplate('template-row', {
-                memberships: row
+                memberships: row.area_memberships_by_term,
+                area: row.area
             }) %>
           <% })%>
         </tbody>
@@ -498,7 +499,7 @@ bodyclass: "home"
 
 <script type="text/html" id="template-row">
     <tr>
-        <th>Buhera South</th>
+        <th><%= area.name %></th>
       <% _.each(memberships, function(memberships_in_term){ %>
         <td>
             <div class="person-group">

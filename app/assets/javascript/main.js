@@ -39,7 +39,10 @@ $(function(){
           });
         });
 
-        return area_memberships_by_term;
+        return {
+          area: area,
+          area_memberships_by_term: area_memberships_by_term
+        }
 
       })
     });
