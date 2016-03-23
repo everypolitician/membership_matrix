@@ -13,23 +13,22 @@ var renderTemplate = function renderTemplate(templateName, data){
 
 $(function(){
 
-  // "events" is terms
-
   $.ajax({
-    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/74d4f01/data/Germany/Bundestag/ep-popolo-v1.0.json',
+    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/9bc5709/data/Australia/Representatives/ep-popolo-v1.0.json',
     dataType: 'json'
   }).done(function(data){
     console.log(data);
 
     var events = data.events.reverse();
+    var memberships_by_area_id = _.groupBy(data.memberships, 'area_id');
+    var people_by_id = _.indexBy(data.persons, 'id');
+    var groups_by_id = _.indexBy(data.organizations, 'id');
 
     var tableHtml = renderTemplate('template-table', {
       terms: events,
       rows: _.map(data.areas, function(area){
 
-        var area_memberships = _.filter(data.memberships, function(membership){
-          return membership.area_id === area.id;
-        });
+        var area_memberships = memberships_by_area_id[area.id];
 
         var area_memberships_by_term = _.map(events, function(event){
           return _.filter(area_memberships, function(membership){
@@ -39,12 +38,8 @@ $(function(){
 
         _.each(area_memberships_by_term, function(area_memberships, term_id){
           _.each(area_memberships, function(membership){
-            membership.person = _.find(data.persons, function(person){
-              return person.id === membership.person_id;
-            });
-            membership.group = _.find(data.organizations, function(group){
-              return group.id === membership.on_behalf_of_id;
-            });
+            membership.person = people_by_id[membership.person_id];
+            membership.group = groups_by_id[membership.on_behalf_of_id];
           });
         });
 
