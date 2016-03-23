@@ -111,3 +111,30 @@ table.dataTable {
     margin-left: 1em;
   }
 }
+
+.popover.bottom {
+  margin-top: 5px; // down from default 10px
+}
+
+.popover-footer {
+  text-align: center;
+  // Styles based on .popover-title
+  padding: 8px 14px;
+  font-size: $font-size-base;
+  background-color: $popover-title-bg;
+  border-top: 1px solid darken($popover-title-bg, 5%);
+  border-radius: 0 0 ($border-radius-large - 1) ($border-radius-large - 1);
+}
+
+.fa-space-after {
+  margin-right: 0.3em;
+}
+
+.btn-link--danger {
+  color: $brand-danger;
+
+  &:hover,
+  &:focus {
+    color: darken($brand-danger, 15%);
+  }
+}

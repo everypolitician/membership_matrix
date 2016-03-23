@@ -52,10 +52,6 @@ $(function(){
     });
     var $table = $(tableHtml)
 
-
-
-
-
     $table.prependTo('.site-content');
     $table.DataTable({
       paging: false,
@@ -72,27 +68,56 @@ $(function(){
       // $(this).popover('toggle');
       $(this).parents('.person-group').toggleClass('person-group--active');
     });
+
+    $('.person').popover({
+      template: renderTemplate('template-popover'),
+      placement: "bottom",
+      html: true,
+      container: "body",
+      content: function(){
+        var $person = $(this);
+        return renderTemplate('template-edit-person', {
+          personName: $person.find('.person__name').text(),
+          personGroup: $person.find('.person__group').text()
+        });
+      }
+    }).on('shown.bs.popover', function(e){
+      var $person = $(this);
+      var $popover = $(this).data('bs.popover').$tip;
+      $popover.data('person', $person);
+      // Can't split or remove new people
+      if( $person.is('.person--new') ){
+        $popover.find('.popover-footer').remove();
+      }
+      $person.find('#name').focus();
+    });
   });
 
-  $('.person').popover({
-    template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>',
-    placement: "bottom",
-    html: true,
-    selector: ".person",
-    container: "body",
-    content: function(){
-      var $person = $(this);
-      var content = '';
-      var personName = $person.find('.person__name').text();
-      var personGroup = $person.find('.person__group').text();
-      content += '<div class="form-group"><label for="name">Name:</label><input id="name" class="form-control" value="' + personName + '"></div>';
-      content += '<div class="form-group"><label for="group">Group:</label><input id="group" class="form-control" value="' + personGroup + '"></div>';
-      content += '<div class="form-group"><label for="fromdate">From date:</label><input id="fromdate" class="form-control"></div>';
-      content += '<div class="form-group"><label for="todate">To date:</label><input id="todate" class="form-control"></div>';
-      content += '<button class="btn btn-primary btn-block">Save</button>'
-      return content;
+
+
+  $(document).on('click', '.js-split-person', function(){
+    var $popover = $(this).parents('.popover');
+    var $person = $popover.data('person').$tip;
+    var $pg = $person.parents('.person-group');
+
+    var settings = {
+      personName: $person.find('.person__name').text(),
+      personGroup: $person.find('.person__group').text()
     }
-  }).on('shown.bs.popover', function(){
-    $('#name').focus();
+
+    $person.remove();
+
+    var html = renderTemplate('template-person', settings);
+    $(html).prependTo($pg).clone().prependTo($pg);
   });
+
+  $(document).on('click', '.js-remove-person', function(){
+    var $person = $(this).parents('.person');
+    $person.remove();
+  });
+
+  $(document).on('click', '.js-save-person', function(){
+
+  });
+
 });
