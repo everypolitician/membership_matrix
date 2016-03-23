@@ -1,4 +1,4 @@
-# Post editor UI prototype
+# Membership Matrix
 
 ### To run locally
 
@@ -10,7 +10,7 @@ Initial set-up (assuming you have [Bundler](http://bundler.io/) installed):
 
 Then, to serve the site:
 
-    cd post-editor
+    cd app
     ../vendor/bin/jekyll serve
 
 The site will be available at http://0.0.0.0:4000

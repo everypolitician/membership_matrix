@@ -1,13 +1,43 @@
+var renderTemplate = function renderTemplate(templateName, data){
+  data = data || {};
+  var source = $('#' + templateName);
+  if(source.length){
+    return _.template( source.html() )(data);
+  } else {
+    throw 'renderTemplate Error: Could not find source template with matching #' + templateName;
+  }
+}
+
 $(function(){
-  var $table = $('#table').DataTable({
-    paging: false,
-    ordering: false,
-    fixedHeader: true,
-    // fixedColumns: true,
-    // scrollY: '100%',
-    // scrollX: '100%',
-    // scrollCollapse: true,
-    dom: "tr" // https://datatables.net/reference/option/dom
+
+  // "events" is terms
+
+  $.ajax({
+    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/74d4f01/data/Germany/Bundestag/ep-popolo-v1.0.json',
+    dataType: 'json'
+  }).done(function(data){
+    console.log(data);
+
+    var tableHtml = renderTemplate('template-table', {
+      terms: data.events.reverse()
+    });
+    $(tableHtml).prependTo('.site-content');
+
+    var $table = $('#table').DataTable({
+      paging: false,
+      ordering: false,
+      fixedHeader: true,
+      // fixedColumns: true,
+      // scrollY: '100%',
+      // scrollX: '100%',
+      // scrollCollapse: true,
+      dom: "tr" // https://datatables.net/reference/option/dom
+    });
+
+    $table.on('click', '.person', function(){
+      // $(this).popover('toggle');
+      $(this).parents('.person-group').toggleClass('person-group--active');
+    });
   });
 
   $('.person').popover({

@@ -3,7 +3,7 @@ layout: default
 bodyclass: "home"
 ---
 
-<table id="table" class="table table-striped" cellspacing="0">
+<!-- <table id="table" class="table table-striped" cellspacing="0">
     <thead>
         <tr>
             <th>Post</th>
@@ -469,4 +469,53 @@ bodyclass: "home"
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
+
+<script type="text/html" id="template-table">
+    <table id="table" class="table table-striped" cellspacing="0">
+        <thead>
+            <tr>
+                <th></th>
+              <% _.each(terms, function(term, i){ %>
+                <th>
+                  <div class="term">
+                    <span class="term__name"><%= term.name %></span>
+                    <span class="term__dates"><%= term.start_date %> – <%= term.end_date %></span>
+                  </div>
+                </th>
+              <% }) %>
+            </tr>
+        </thead>
+    </table>
+</script>
+
+<script type="text/html" id="template-popover">
+    <div class="popover">
+        <div class="arrow"></div>
+        <div class="popover-content"></div>
+        <div class="popover-footer">
+            <span class="btn btn-link js-split-person"><i class="fa fa-user-plus fa-space-after"></i>Split</span>
+            <span class="btn btn-link btn-link--danger js-remove-person"><i class="fa fa-trash fa-space-after"></i>Remove</span>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="template-edit-person">
+    <div class="form-group">
+        <label for="personName">Name:</label>
+        <input id="personName" class="form-control" value="<%= personName %>">
+    </div>
+    <div class="form-group">
+        <label for="personGroup">Group:</label>
+        <input id="personGroup" class="form-control" value="<%= personGroup %>">
+    </div>
+    <button class="btn btn-primary btn-block js-save-person"><i class="fa fa-check fa-space-after"></i>Save</button>
+</script>
+
+<script type="text/html" id="template-person">
+    <div class="person">
+        <span class="person__name"><%= personName %></span>
+        <span class="person__group"><%= personGroup %></span>
+        <span class="person__dates">Date – Date</span>
+    </div>
+</script>

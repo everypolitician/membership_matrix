@@ -81,14 +81,21 @@ table.dataTable {
 
   display: none;
 
+  &:hover {
+    background-color: mix($color-dark-green, $color-light-green, 10%);
+    border-color: mix($color-dark-green, $color-light-green, 30%);
+  }
+
+  // Reveal the person--new on hovered table cell,
+  // or when its popover is active...
   td:hover &,
   .person-group--active & {
     display: block;
   }
 
-  &:hover {
-    background-color: mix($color-dark-green, $color-light-green, 10%);
-    border-color: mix($color-dark-green, $color-light-green, 30%);
+  // ...Unless this is preceeded by another person.
+  .person + & {
+    display: none !important;
   }
 }
 
