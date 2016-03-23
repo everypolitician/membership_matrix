@@ -12,7 +12,7 @@ Then, to serve the site:
 
     ./vendor/bin/jekyll serve
 
-The site will be available at http://0.0.0.0:4000
+The site will be available at http://0.0.0.0:4000/membership_matrix/
 
 ### Note about DataTables
 
