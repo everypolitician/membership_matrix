@@ -1,0 +1,4 @@
+name: post-editor
+baseurl:
+host: 0.0.0.0
+exclude: [Gemfile, Gemfile.lock, README.md, vendor]
