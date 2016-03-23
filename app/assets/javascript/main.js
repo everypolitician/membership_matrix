@@ -78,7 +78,11 @@ $(function(){
         var $person = $(this);
         return renderTemplate('template-edit-person', {
           personName: $person.find('.person__name').text(),
-          personGroup: $person.find('.person__group').text()
+          personGroup: $person.find('.person__group').text(),
+          people: data.persons,
+          organizations: data.organizations, // TODO: this also contains the legislature!!
+          person_id: $person.data('person_id'),
+          on_behalf_of_id: $person.data('on_behalf_of_id')
         });
       }
     }).on('shown.bs.popover', function(e){

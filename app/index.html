@@ -508,7 +508,9 @@ bodyclass: "home"
                     person: membership.person,
                     group: membership.group,
                     start_date: membership.start_date,
-                    end_date: membership.end_date
+                    end_date: membership.end_date,
+                    area_id: membership.area_id,
+                    legislative_period_id: membership.legislative_period_id
                 }) %>
               <% }) %>
                 <div class="person person--new">New</div>
@@ -519,7 +521,7 @@ bodyclass: "home"
 </script>
 
 <script type="text/html" id="template-person">
-    <div class="person">
+    <div class="person" data-person_id="<%= person.id %>" data-on_behalf_of_id="<%= group.id %>" data-area_id="<%= area_id %>" data-legislative_period_id="<%= legislative_period_id %>">
         <span class="person__name"><%= person.name %></span>
         <span class="person__group"><%= group.name %></span>
       <% if(start_date || end_date){ %>
@@ -542,11 +544,19 @@ bodyclass: "home"
 <script type="text/html" id="template-edit-person">
     <div class="form-group">
         <label for="personName">Name:</label>
-        <input id="personName" class="form-control" value="<%= personName %>">
+        <select id="personName" class="form-control">
+          <% _.each(people, function(person){ %>
+            <option value="<%= person.id %>" <% if(person_id === person.id){ %>selected<% } %>><%= person.name %></option>
+          <% })%>
+        </select>
     </div>
     <div class="form-group">
         <label for="personGroup">Group:</label>
-        <input id="personGroup" class="form-control" value="<%= personGroup %>">
+        <select id="personGroup" class="form-control">
+          <% _.each(organizations, function(organization){ %>
+            <option value="<%= organization.id %>" <% if(on_behalf_of_id === organization.id){ %>selected<% } %>><%= organization.name %></option>
+          <% })%>
+        </select>
     </div>
     <button class="btn btn-primary btn-block js-save-person"><i class="fa fa-check fa-space-after"></i>Save</button>
 </script>
