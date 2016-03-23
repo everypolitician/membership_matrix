@@ -36,6 +36,9 @@ $(function(){
             membership.person = _.find(data.persons, function(person){
               return person.id === membership.person_id;
             });
+            membership.group = _.find(data.organizations, function(group){
+              return group.id === membership.on_behalf_of_id;
+            });
           });
         });
 

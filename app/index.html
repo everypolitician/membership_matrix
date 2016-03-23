@@ -505,7 +505,8 @@ bodyclass: "home"
             <div class="person-group">
               <% _.each(memberships_in_term, function(membership, i){ %>
                 <%= renderTemplate('template-person', {
-                    person: membership.person
+                    person: membership.person,
+                    group: membership.group
                 }) %>
               <% }) %>
                 <div class="person person--new">New</div>
@@ -518,7 +519,7 @@ bodyclass: "home"
 <script type="text/html" id="template-person">
     <div class="person">
         <span class="person__name"><%= person.name %></span>
-        <span class="person__group"><%= person.group %></span>
+        <span class="person__group"><%= group.name %></span>
         <span class="person__dates"><%= person.start_date %> – <%= person.end_date %></span>
     </div>
 </script>
