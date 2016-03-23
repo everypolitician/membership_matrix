@@ -61,9 +61,4 @@ $(function(){
   }).on('shown.bs.popover', function(){
     $('#name').focus();
   });
-
-  $table.on('click', '.person', function(){
-    $(this).popover('toggle');
-    $(this).parents('.person-group').toggleClass('person-group--active');
-  });
 });
