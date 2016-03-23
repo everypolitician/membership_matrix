@@ -1,5 +1,8 @@
 var renderTemplate = function renderTemplate(templateName, data){
   data = data || {};
+  data = _.extend(data, {
+    renderTemplate: renderTemplate
+  });
   var source = $('#' + templateName);
   if(source.length){
     return _.template( source.html() )(data);
@@ -13,17 +16,41 @@ $(function(){
   // "events" is terms
 
   $.ajax({
-    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/74d4f01/data/Germany/Bundestag/ep-popolo-v1.0.json',
+    url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/fb9382f/data/Zimbabwe/Assembly/ep-popolo-v1.0.json',
     dataType: 'json'
   }).done(function(data){
     console.log(data);
 
     var tableHtml = renderTemplate('template-table', {
-      terms: data.events.reverse()
-    });
-    $(tableHtml).prependTo('.site-content');
+      terms: data.events.reverse(),
+      rows: _.map(data.areas, function(area){
 
-    var $table = $('#table').DataTable({
+        var area_memberships = _.filter(data.memberships, function(membership){
+          return membership.area_id === area.id;
+        });
+
+        var area_memberships_by_term = _.groupBy(area_memberships, 'legislative_period_id');
+
+        _.each(area_memberships_by_term, function(area_memberships, term_id){
+          _.each(area_memberships, function(membership){
+            membership.person = _.find(data.persons, function(person){
+              return person.id === membership.person_id;
+            });
+          });
+        });
+
+        return area_memberships_by_term;
+
+      })
+    });
+    var $table = $(tableHtml)
+
+
+
+
+
+    $table.prependTo('.site-content');
+    $table.DataTable({
       paging: false,
       ordering: false,
       fixedHeader: true,

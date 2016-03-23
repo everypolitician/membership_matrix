@@ -486,7 +486,40 @@ bodyclass: "home"
               <% }) %>
             </tr>
         </thead>
+        <tbody>
+          <% _.each(rows, function(row, i){ %>
+            <%= renderTemplate('template-row', {
+                memberships: row
+            }) %>
+          <% })%>
+        </tbody>
     </table>
+</script>
+
+<script type="text/html" id="template-row">
+    <tr>
+        <th>Buhera South</th>
+      <% _.each(memberships, function(memberships_in_term){ %>
+        <td>
+            <div class="person-group">
+              <% _.each(memberships_in_term, function(membership, i){ %>
+                <%= renderTemplate('template-person', {
+                    person: membership.person
+                }) %>
+              <% }) %>
+                <div class="person person--new">New</div>
+            </div>
+        </td>
+      <% }) %>
+    </th>
+</script>
+
+<script type="text/html" id="template-person">
+    <div class="person">
+        <span class="person__name"><%= person.name %></span>
+        <span class="person__group"><%= person.group %></span>
+        <span class="person__dates"><%= person.start_date %> – <%= person.end_date %></span>
+    </div>
 </script>
 
 <script type="text/html" id="template-popover">
@@ -510,12 +543,4 @@ bodyclass: "home"
         <input id="personGroup" class="form-control" value="<%= personGroup %>">
     </div>
     <button class="btn btn-primary btn-block js-save-person"><i class="fa fa-check fa-space-after"></i>Save</button>
-</script>
-
-<script type="text/html" id="template-person">
-    <div class="person">
-        <span class="person__name"><%= personName %></span>
-        <span class="person__group"><%= personGroup %></span>
-        <span class="person__dates">Date – Date</span>
-    </div>
 </script>
