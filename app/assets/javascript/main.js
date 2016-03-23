@@ -120,7 +120,9 @@ $(function(){
   });
 
   $(document).on('click', '.js-remove-person', function(){
-    var $person = $(this).parents('.person');
+    var $popover = $(this).parents('.popover');
+    var $person = $popover.data('person');
+    $person.popover('destroy');
     $person.remove();
   });
 
