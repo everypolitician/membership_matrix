@@ -134,14 +134,11 @@ $(function(){
     var $popover = $(this).parents('.popover');
     var $person = $popover.data('person');
 
-    var thing_to_send = {
-      before: {
-        person_id: $person.data('person_id'),
-        on_behalf_of_id: $person.data('on_behalf_of_id'),
-        area_id: $person.data('area_id'),
-        legislative_period_id: $person.data('legislative_period_id')
-      },
-      after: {
+    var existing_person_id = $person.data('person_id');
+    var existing_on_behalf_of_id = $person.data('on_behalf_of_id');
+
+    var payload = {
+      'new': {
         person_id: $popover.find('#person_id').val(),
         on_behalf_of_id: $popover.find('#on_behalf_of_id').val(),
         area_id: $person.data('area_id'),
@@ -149,7 +146,19 @@ $(function(){
       }
     }
 
-    console.log(thing_to_send);
+    if(existing_person_id || existing_on_behalf_of_id){
+      payload.old = {
+        person_id: existing_person_id,
+        on_behalf_of_id: existing_on_behalf_of_id,
+        area_id: $person.data('area_id'),
+        legislative_period_id: $person.data('legislative_period_id')
+      }
+    }
+
+    // TODO: This needs to be sent somewhere!
+    console.log(payload);
+
+    // TODO: The DOM needs to be updated to reflect the change.
   });
 
 });
