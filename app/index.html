@@ -506,7 +506,9 @@ bodyclass: "home"
               <% _.each(memberships_in_term, function(membership, i){ %>
                 <%= renderTemplate('template-person', {
                     person: membership.person,
-                    group: membership.group
+                    group: membership.group,
+                    start_date: membership.start_date,
+                    end_date: membership.end_date
                 }) %>
               <% }) %>
                 <div class="person person--new">New</div>
@@ -520,7 +522,9 @@ bodyclass: "home"
     <div class="person">
         <span class="person__name"><%= person.name %></span>
         <span class="person__group"><%= group.name %></span>
-        <span class="person__dates"><%= person.start_date %> – <%= person.end_date %></span>
+      <% if(start_date || end_date){ %>
+        <span class="person__dates"><%= start_date %> – <%= end_date %></span>
+      <% } %>
     </div>
 </script>
 
