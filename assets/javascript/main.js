@@ -157,4 +157,14 @@ $(function(){
     // TODO: The DOM needs to be updated to reflect the change.
   });
 
+  $(document).on('click', '.js-save-csv', function(e) {
+    e.preventDefault();
+    window.location = "data:text/csv," + encodeURIComponent(
+      Papa.unparse($('.person:not(.person--new)').map(function() {
+        var data = $(this).data();
+        delete data['bs.popover'];
+        return data;
+      }).toArray())
+    );
+  });
 });
