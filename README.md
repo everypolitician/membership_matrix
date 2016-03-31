@@ -10,9 +10,9 @@ Initial set-up (assuming you have [Bundler](http://bundler.io/) installed):
 
 Then, to serve the site:
 
-    ./vendor/bin/jekyll serve
+    ./vendor/bin/jekyll serve --baseurl=''
 
-The site will be available at http://0.0.0.0:4000/membership_matrix/
+The site will be available at http://0.0.0.0:4000/
 
 ### Note about DataTables
 
