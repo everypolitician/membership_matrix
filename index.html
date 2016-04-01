@@ -19,10 +19,9 @@ bodyclass: "home"
             </tr>
         </thead>
         <tbody>
-          <% _.each(rows, function(row, i){ %>
+          <% _.each(areas, function(area, i){ %>
             <%= renderTemplate('template-row', {
-                memberships: row.membershipsByTerm,
-                area: row.area
+                area: area
             }) %>
           <% })%>
         </tbody>
@@ -32,10 +31,10 @@ bodyclass: "home"
 <script type="text/html" id="template-row">
     <tr>
         <th><%= area.name %></th>
-      <% _.each(memberships, function(obj){ %>
+      <% _.each(area.terms, function(term){ %>
         <td>
             <div class="person-group">
-              <% _.each(obj.memberships, function(membership, i){ %>
+              <% _.each(term.memberships, function(membership, i){ %>
                 <%= renderTemplate('template-person', {
                     person: membership.person,
                     group: membership.group,
@@ -45,7 +44,7 @@ bodyclass: "home"
                     legislative_period_id: membership.legislative_period_id
                 }) %>
               <% }) %>
-                <div class="person person--new" data-area_id="<%= area.id %>" data-legislative_period_id="<%= obj.legislative_period_id %>">New</div>
+                <div class="person person--new" data-area_id="<%= area.id %>" data-legislative_period_id="<%= term.legislative_period_id %>">New</div>
             </div>
         </td>
       <% }) %>

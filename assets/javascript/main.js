@@ -11,48 +11,50 @@ var renderTemplate = function renderTemplate(templateName, data){
   }
 };
 
+function mungePopolo(popolo) {
+  // We want the events in reverse order so the newest appears first in our table.
+  popolo.events = popolo.events.reverse();
+
+  // Create some objects for faster lookups by id.
+  var membershipsByAreaIdLookup = _.groupBy(popolo.memberships, 'area_id');
+  var personLookup = _.indexBy(popolo.persons, 'id');
+  var groupLookup = _.indexBy(popolo.organizations, 'id');
+
+  popolo.areas = _.map(_.sortBy(popolo.areas, function(area) { return area.name; }), function(area){
+    var terms = _.map(popolo.events, function(event){
+      return {
+        legislative_period_id: event.id,
+        memberships: _.filter(membershipsByAreaIdLookup[area.id], function(membership){
+          return membership.legislative_period_id === event.id;
+        })
+      };
+    });
+
+    _.each(terms, function(obj){
+      _.each(obj.memberships, function(membership){
+        membership.person = personLookup[membership.person_id];
+        membership.group = groupLookup[membership.on_behalf_of_id];
+      });
+    });
+
+    area.terms = terms;
+
+    return area;
+  });
+
+  return popolo;
+}
+
 $(function(){
 
   $.ajax({
     url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/9bc5709/data/Australia/Representatives/ep-popolo-v1.0.json',
     dataType: 'json'
-  }).done(function(data){
-    console.log(data);
-
-    var events = data.events.reverse();
-    var membershipsByAreaIdLookup = _.groupBy(data.memberships, 'area_id');
-    var personLookup = _.indexBy(data.persons, 'id');
-    var groupLookup = _.indexBy(data.organizations, 'id');
-    var areas = _.sortBy(data.areas, function(area) { return area.name; });
-
+  }).done(function(popolo){
+    var data = mungePopolo(popolo);
     var tableHtml = renderTemplate('template-table', {
-      terms: events,
-      rows: _.map(areas, function(area){
-
-        var areaMemberships = membershipsByAreaIdLookup[area.id];
-
-        var membershipsByTerm = _.map(events, function(event){
-          return {
-            legislative_period_id: event.id,
-            memberships: _.filter(areaMemberships, function(membership){
-              return membership.legislative_period_id === event.id;
-            })
-          };
-        });
-
-        _.each(membershipsByTerm, function(obj){
-          _.each(obj.memberships, function(membership){
-            membership.person = personLookup[membership.person_id];
-            membership.group = groupLookup[membership.on_behalf_of_id];
-          });
-        });
-
-        return {
-          area: area,
-          membershipsByTerm: membershipsByTerm
-        };
-
-      })
+      terms: data.events,
+      areas: data.areas
     });
     var $table = $(tableHtml);
 
