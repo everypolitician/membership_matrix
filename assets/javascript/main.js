@@ -79,7 +79,7 @@ $(function(){
         var $person = $(this);
         return renderTemplate('template-edit-person', {
           people: data.persons,
-          organizations: data.organizations, // TODO: this also contains the legislature!!
+          organizations: _.where(data.organizations, {classification: 'party'}),
           person_id: $person.data('person_id'),
           on_behalf_of_id: $person.data('on_behalf_of_id')
         });
