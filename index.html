@@ -545,6 +545,7 @@ bodyclass: "home"
     <div class="form-group">
         <label for="person_id">Name:</label>
         <select id="person_id" class="form-control">
+          <option>Choose a person</option>
           <% _.each(people, function(person){ %>
             <option value="<%= person.id %>" <% if(person_id === person.id){ %>selected<% } %>><%= person.name %></option>
           <% })%>
@@ -553,6 +554,7 @@ bodyclass: "home"
     <div class="form-group">
         <label for="on_behalf_of_id">Group:</label>
         <select id="on_behalf_of_id" class="form-control">
+          <option>Choose a group</option>
           <% _.each(organizations, function(organization){ %>
             <option value="<%= organization.id %>" <% if(on_behalf_of_id === organization.id){ %>selected<% } %>><%= organization.name %></option>
           <% })%>
