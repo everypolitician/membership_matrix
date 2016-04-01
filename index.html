@@ -489,7 +489,7 @@ bodyclass: "home"
         <tbody>
           <% _.each(rows, function(row, i){ %>
             <%= renderTemplate('template-row', {
-                memberships: row.area_memberships_by_term,
+                memberships: row.membershipsByTerm,
                 area: row.area
             }) %>
           <% })%>

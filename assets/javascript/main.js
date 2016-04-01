@@ -20,36 +20,36 @@ $(function(){
     console.log(data);
 
     var events = data.events.reverse();
-    var memberships_by_area_id = _.groupBy(data.memberships, 'area_id');
-    var people_by_id = _.indexBy(data.persons, 'id');
-    var groups_by_id = _.indexBy(data.organizations, 'id');
+    var membershipsByAreaIdLookup = _.groupBy(data.memberships, 'area_id');
+    var personLookup = _.indexBy(data.persons, 'id');
+    var groupLookup = _.indexBy(data.organizations, 'id');
     var areas = _.sortBy(data.areas, function(area) { return area.name; });
 
     var tableHtml = renderTemplate('template-table', {
       terms: events,
       rows: _.map(areas, function(area){
 
-        var area_memberships = memberships_by_area_id[area.id];
+        var areaMemberships = membershipsByAreaIdLookup[area.id];
 
-        var area_memberships_by_term = _.map(events, function(event){
+        var membershipsByTerm = _.map(events, function(event){
           return {
             legislative_period_id: event.id,
-            memberships: _.filter(area_memberships, function(membership){
+            memberships: _.filter(areaMemberships, function(membership){
               return membership.legislative_period_id === event.id;
             })
           }
         });
 
-        _.each(area_memberships_by_term, function(obj){
+        _.each(membershipsByTerm, function(obj){
           _.each(obj.memberships, function(membership){
-            membership.person = people_by_id[membership.person_id];
-            membership.group = groups_by_id[membership.on_behalf_of_id];
+            membership.person = personLookup[membership.person_id];
+            membership.group = groupLookup[membership.on_behalf_of_id];
           });
         });
 
         return {
           area: area,
-          area_memberships_by_term: area_memberships_by_term
+          membershipsByTerm: membershipsByTerm
         }
 
       })
