@@ -35,28 +35,21 @@ bodyclass: "home"
         <td>
             <div class="person-group">
               <% _.each(term.memberships, function(membership, i){ %>
-                <%= renderTemplate('template-person', {
-                    person: membership.person,
-                    group: membership.group,
-                    start_date: membership.start_date,
-                    end_date: membership.end_date,
-                    area_id: membership.area_id,
-                    legislative_period_id: membership.legislative_period_id
-                }) %>
+                <%= renderTemplate('template-membership', {membership: membership}) %>
               <% }) %>
-                <div class="person person--new" data-area_id="<%= area.id %>" data-legislative_period_id="<%= term.legislative_period_id %>">New</div>
+                <div class="person person--new" data-membership="<%= _.escape(JSON.stringify({area_id: area.id})) %>">New</div>
             </div>
         </td>
       <% }) %>
     </th>
 </script>
 
-<script type="text/html" id="template-person">
-    <div class="person" data-person_id="<%= person.id %>" data-on_behalf_of_id="<%= group.id %>" data-area_id="<%= area_id %>" data-legislative_period_id="<%= legislative_period_id %>">
-        <span class="person__name"><%= person.name %></span>
-        <span class="person__group"><%= group.name %></span>
-      <% if(start_date || end_date){ %>
-        <span class="person__dates"><%= start_date %> – <%= end_date %></span>
+<script type="text/html" id="template-membership">
+    <div class="person" data-membership="<%= _.escape(JSON.stringify(membership)) %>">
+        <span class="person__name"><%= membership.person.name %></span>
+        <span class="person__group"><%= membership.group.name %></span>
+      <% if(membership.start_date || membership.end_date){ %>
+        <span class="person__dates"><%= membership.start_date %> – <%= membership.end_date %></span>
       <% } %>
     </div>
 </script>
@@ -78,7 +71,7 @@ bodyclass: "home"
         <select id="person_id" class="form-control">
           <option>Choose a person</option>
           <% _.each(people, function(person){ %>
-            <option value="<%= person.id %>" <% if(person_id === person.id){ %>selected<% } %>><%= person.name %></option>
+            <option value="<%= person.id %>" <% if(membership.person_id === person.id){ %>selected<% } %>><%= person.name %></option>
           <% })%>
         </select>
     </div>
@@ -87,9 +80,17 @@ bodyclass: "home"
         <select id="on_behalf_of_id" class="form-control">
           <option>Choose a group</option>
           <% _.each(organizations, function(organization){ %>
-            <option value="<%= organization.id %>" <% if(on_behalf_of_id === organization.id){ %>selected<% } %>><%= organization.name %></option>
+            <option value="<%= organization.id %>" <% if(membership.on_behalf_of_id === organization.id){ %>selected<% } %>><%= organization.name %></option>
           <% })%>
         </select>
+    </div>
+    <div class="form-group">
+        <label for="start_date">Start date:</label>
+        <input type="date" id="start_date" value="<%= membership.start_date %>">
+    </div>
+    <div class="form-group">
+        <label for="end_date">End date:</label>
+        <input type="date" id="end_date" value="<%= membership.end_date %>">
     </div>
     <button class="btn btn-primary btn-block js-save-person"><i class="fa fa-check fa-space-after"></i>Save</button>
 </script>

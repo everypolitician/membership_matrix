@@ -17,8 +17,8 @@ function mungePopolo(popolo) {
 
   // Create some objects for faster lookups by id.
   var membershipsByAreaIdLookup = _.groupBy(popolo.memberships, 'area_id');
-  var personLookup = _.indexBy(popolo.persons, 'id');
-  var groupLookup = _.indexBy(popolo.organizations, 'id');
+  var personLookup = popolo.personLookup = _.indexBy(popolo.persons, 'id');
+  var groupLookup = popolo.groupLookup = _.indexBy(popolo.organizations, 'id');
 
   popolo.areas = _.map(_.sortBy(popolo.areas, function(area) { return area.name; }), function(area){
     var terms = _.map(popolo.events, function(event){
@@ -51,7 +51,7 @@ $(function(){
     url: 'https://cdn.rawgit.com/everypolitician/everypolitician-data/9bc5709/data/Australia/Representatives/ep-popolo-v1.0.json',
     dataType: 'json'
   }).done(function(popolo){
-    var data = mungePopolo(popolo);
+    var data = window.data = mungePopolo(popolo);
     var tableHtml = renderTemplate('template-table', {
       terms: data.events,
       areas: data.areas
@@ -77,11 +77,11 @@ $(function(){
       container: "body",
       content: function(){
         var $person = $(this);
+        var membership = $person.data('membership');
         return renderTemplate('template-edit-person', {
           people: data.persons,
           organizations: _.where(data.organizations, {classification: 'party'}),
-          person_id: $person.data('person_id'),
-          on_behalf_of_id: $person.data('on_behalf_of_id')
+          membership: membership
         });
       }
 
@@ -110,8 +110,6 @@ $(function(){
     });
   });
 
-
-
   $(document).on('click', '.js-split-person', function(){
     var $popover = $(this).parents('.popover');
     var $person = $popover.data('person');
@@ -132,9 +130,17 @@ $(function(){
   $(document).on('click', '.js-save-person', function(){
     var $popover = $(this).parents('.popover');
     var $person = $popover.data('person');
-
-    $person.data({person_id: $popover.find('#person_id').val(), on_behalf_of_id: $popover.find('#on_behalf_of_id').val()});
     $person.popover('hide');
+
+    var membership = $person.data('membership');
+    membership.person_id = $popover.find('#person_id').val();
+    membership.on_behalf_of_id = $popover.find('#on_behalf_of_id').val();
+    membership.start_date = $popover.find('#start_date').val();
+    membership.end_date = $popover.find('#end_date').val();
+    membership.person = data.personLookup[membership.person_id];
+    membership.group = data.groupLookup[membership.on_behalf_of_id];
+
+    $person.replaceWith($(renderTemplate('template-membership', {membership: membership})));
   });
 
   $(document).on('click', '.js-save-csv', function(e) {
