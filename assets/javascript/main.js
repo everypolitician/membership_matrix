@@ -23,10 +23,11 @@ $(function(){
     var memberships_by_area_id = _.groupBy(data.memberships, 'area_id');
     var people_by_id = _.indexBy(data.persons, 'id');
     var groups_by_id = _.indexBy(data.organizations, 'id');
+    var areas = _.sortBy(data.areas, function(area) { return area.name; });
 
     var tableHtml = renderTemplate('template-table', {
       terms: events,
-      rows: _.map(data.areas, function(area){
+      rows: _.map(areas, function(area){
 
         var area_memberships = memberships_by_area_id[area.id];
 
