@@ -124,7 +124,15 @@ $(function(){
     var $popover = $(this).parents('.popover');
     var $person = $popover.data('person');
     $person.popover('destroy');
-    $person.remove();
+    var membership = $person.data('membership');
+    delete membership.person;
+    delete membership.group;
+    membership.person_id = null;
+    membership.on_behalf_of_id = null;
+    membership.start_date = null;
+    membership.end_date = null;
+    $person.data('membership', membership);
+    $person.hide();
   });
 
   $(document).on('click', '.js-save-person', function(){
