@@ -152,4 +152,23 @@ $(function(){
       }).toArray())
     );
   });
+
+  $(document).on('click', '.js-save', function(e) {
+    e.preventDefault();
+    var csv = Papa.unparse($('.person:not(.person--new)').map(function() {
+      var membership = $(this).data('membership');
+      return _.omit(membership, ['person', 'group']);
+    }).toArray());
+    $.ajax({
+      url: 'http://localhost:9292/memberships',
+      method: 'POST',
+      data: csv,
+      processData: false,
+      cache: false
+    }).success(function() {
+      console.log("Successfully saved");
+    }).error(function(xhr, status, err) {
+      console.error(status, err);
+    });
+  });
 });
