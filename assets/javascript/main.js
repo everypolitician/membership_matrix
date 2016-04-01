@@ -147,9 +147,8 @@ $(function(){
     e.preventDefault();
     window.location = "data:text/csv," + encodeURIComponent(
       Papa.unparse($('.person:not(.person--new)').map(function() {
-        var data = $(this).data();
-        delete data['bs.popover'];
-        return data;
+        var membership = $(this).data('membership');
+        return _.omit(membership, ['person', 'group']);
       }).toArray())
     );
   });
