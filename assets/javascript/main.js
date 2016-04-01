@@ -9,7 +9,7 @@ var renderTemplate = function renderTemplate(templateName, data){
   } else {
     throw 'renderTemplate Error: Could not find source template with matching #' + templateName;
   }
-}
+};
 
 $(function(){
 
@@ -37,7 +37,7 @@ $(function(){
             memberships: _.filter(areaMemberships, function(membership){
               return membership.legislative_period_id === event.id;
             })
-          }
+          };
         });
 
         _.each(membershipsByTerm, function(obj){
@@ -50,11 +50,11 @@ $(function(){
         return {
           area: area,
           membershipsByTerm: membershipsByTerm
-        }
+        };
 
       })
     });
-    var $table = $(tableHtml)
+    var $table = $(tableHtml);
 
     $table.prependTo('.site-content');
     $table.DataTable({
@@ -86,7 +86,7 @@ $(function(){
     }).on('show.bs.popover', function(e){
       // Remove existing popovers on the page
       $('.popover').each(function(){
-        $person = $(this).data('bs.popover').$element;
+        var $person = $(this).data('bs.popover').$element;
         $person.popover('hide');
       });
 
@@ -102,7 +102,7 @@ $(function(){
       $person.find('#name').focus();
 
     }).on('hide.bs.popover', function(e){
-      $person = $(this).data('bs.popover').$element;
+      var $person = $(this).data('bs.popover').$element;
       $person.parents('.person-group').removeClass('person-group--active');
 
     });
@@ -141,7 +141,7 @@ $(function(){
         area_id: $person.data('area_id'),
         legislative_period_id: $person.data('legislative_period_id')
       }
-    }
+    };
 
     if(existing_person_id || existing_on_behalf_of_id){
       payload.old = {
@@ -149,7 +149,7 @@ $(function(){
         on_behalf_of_id: existing_on_behalf_of_id,
         area_id: $person.data('area_id'),
         legislative_period_id: $person.data('legislative_period_id')
-      }
+      };
     }
 
     // TODO: This needs to be sent somewhere!
