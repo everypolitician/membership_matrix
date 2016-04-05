@@ -12,9 +12,6 @@ var renderTemplate = function renderTemplate(templateName, data){
 };
 
 function mungePopolo(popolo) {
-  // We want the events in reverse order so the newest appears first in our table.
-  popolo.events = popolo.events.reverse();
-
   // Create some objects for faster lookups by id.
   var membershipsByAreaIdLookup = _.groupBy(popolo.memberships, 'area_id');
   var personLookup = popolo.personLookup = _.indexBy(popolo.persons, 'id');
