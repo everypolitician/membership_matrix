@@ -1,3 +1,6 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "jekyll"
+gem 'sinatra'
+gem 'puma'
+gem 'sass'
+gem 'liquid'
