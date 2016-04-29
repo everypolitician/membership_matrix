@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Membership Matrix</title>
+    <link rel="stylesheet" href="<%= url('/css/main.css') %>">
+  </head>
+  <body class="home">
+
+    <header class="site-header">
+      <a class="js-save btn btn-primary pull-right" href="#">Save</a>
+      <h1>Post editor</h1>
+      <a class="js-save-csv" href="#">Save CSV</a>
+    </header>
+
+    <div class="site-content">
+      <%= yield %>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+    <script src="<%= url('/javascript/vendor/jquery-1.12.2.min.js') %>"></script>
+    <script src="<%= url('/javascript/vendor/underscore.min.js') %>"></script>
+    <script src="<%= url('/javascript/vendor/bootstrap.min.js') %>"></script>
+    <script src="<%= url('/javascript/vendor/datatables.min.js') %>"></script>
+    <script src="<%= url('/javascript/main.js') %>"></script>
+  </body>
+</html>
