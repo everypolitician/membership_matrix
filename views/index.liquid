@@ -42,7 +42,9 @@
 <script type="text/html" id="template-membership">
     <div class="person" data-membership="<%= _.escape(JSON.stringify(membership)) %>">
         <span class="person__name"><%= membership.person.name %></span>
+      <% if (membership.group) { %>
         <span class="person__group"><%= membership.group.name %></span>
+      <% } %>
       <% if(membership.start_date || membership.end_date){ %>
         <span class="person__dates"><%= membership.start_date %> – <%= membership.end_date %></span>
       <% } %>
