@@ -13,7 +13,16 @@ var renderTemplate = function renderTemplate(templateName, data){
 
 function mungePopolo(popolo) {
   // Create some objects for faster lookups by id.
-  var membershipsByAreaIdLookup = _.groupBy(popolo.memberships, 'area_id');
+  var membershipsByAreaIdLookup = _.groupBy(
+    popolo.memberships,
+    function (m) {
+      if (m.hasOwnProperty('area_id')) {
+        return m.area_id
+      } else if (m.hasOwnProperty('area') && m.area) {
+        return m.area.id
+      }
+    }
+  );
   var personLookup = popolo.personLookup = _.indexBy(popolo.persons, 'id');
   var groupLookup = popolo.groupLookup = _.indexBy(popolo.organizations, 'id');
 
