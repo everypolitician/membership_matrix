@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tests for Membership Matrix</title>
+
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+
+  </head>
+  <body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+    <script src="javascript/vendor/jquery-1.12.2.min.js"></script>
+    <script src="javascript/vendor/underscore.min.js"></script>
+    <script src="javascript/vendor/bootstrap.min.js"></script>
+    <script src="javascript/vendor/datatables.min.js"></script>
+    <script src="javascript/lib.js"></script>
+
+    <div id="mocha"></div>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script>
+        if (typeof initMochaPhantomJS === 'function') {
+          initMochaPhantomJS()
+        }
+        mocha.ui('bdd');
+        mocha.reporter('html');
+        var expect = chai.expect;
+        var assert = chai.assert;
+    </script>
+    <script src="tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
+
+  </body>
+</html>

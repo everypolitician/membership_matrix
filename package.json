@@ -1,0 +1,21 @@
+{
+  "name": "membership_matrix",
+  "version": "0.0.0",
+  "description": "Packages required for testing membership_matrix",
+  "devDependencies": {
+    "mocha": "~2.5.3",
+    "chai": "~3.5.0",
+    "mocha-phantomjs": "~4.1.0"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha-phantomjs public/tests.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/everypolitician/membership_matrix.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/everypolitician/membership_matrix/issues"
+  }
+}
