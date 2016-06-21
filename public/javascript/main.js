@@ -1,3 +1,44 @@
+// This useful function is from: http://stackoverflow.com/a/439578/223092
+function getQueryParams(qs) {
+    qs = qs.split('+').join(' ');
+
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
+
+function getAreasForDisplay(allAreas, term) {
+  // Some data sources (just Pombola Popolo JSON exports, as far as I
+  // know) include an embedded (and badly named) 'session' attribute
+  // to indicate which parliamentary term this is for.  Only look for
+  // this attribute if any of areas have this:
+  var someWithSession = _.some(allAreas, function(a) {
+    return a.session;
+  });
+  if (someWithSession && term) {
+    return _.filter(
+      allAreas,
+      function (area) {
+        return area.session && area.session.slug == term;
+      }
+    );
+  }
+  return allAreas;
+}
+
+function getEventsForDisplay(allEvents, term) {
+  if (term) {
+    return _.filter(allEvents, function(event) { return event.id == term });
+  }
+  return allEvents;
+}
+
 var renderTemplate = function renderTemplate(templateName, data){
   data = data || {};
   data = _.extend(data, {
@@ -12,6 +53,12 @@ var renderTemplate = function renderTemplate(templateName, data){
 };
 
 function mungePopolo(popolo) {
+  var query = getQueryParams(document.location.search);
+  var term = null;
+  if (query.term) {
+    term = query.term;
+  }
+
   // Create some objects for faster lookups by id.
   var membershipsByAreaIdLookup = _.groupBy(
     popolo.memberships,
@@ -25,6 +72,9 @@ function mungePopolo(popolo) {
   );
   var personLookup = popolo.personLookup = _.indexBy(popolo.persons, 'id');
   var groupLookup = popolo.groupLookup = _.indexBy(popolo.organizations, 'id');
+
+  popolo.areas = getAreasForDisplay(popolo.areas, term);
+  popolo.events = getEventsForDisplay(popolo.events, term);
 
   popolo.areas = _.map(_.sortBy(popolo.areas, function(area) { return area.name; }), function(area){
     var terms = _.map(popolo.events, function(event){
