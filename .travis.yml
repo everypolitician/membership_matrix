@@ -13,7 +13,11 @@ node_js:
   - "4"
 
 install:
-  - npm install
+  # There is an issue with random 403 errors when installing phantomjs
+  # from BitBucket; as a workaround you can install it from a different
+  # CDN, which is what the PHANTOMJS_CDNURL environment variable is
+  # specifying:
+  - PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install
 
 script:
   - npm test
