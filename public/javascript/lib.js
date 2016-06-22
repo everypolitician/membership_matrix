@@ -99,7 +99,10 @@ function mungePopolo(popolo) {
       obj.memberships = _.sortBy(obj.memberships, function (m) { return m.end_date});
       obj.memberships = _.sortBy(obj.memberships, function (m) { return m.start_date});
     });
-
+    // Now terms contains the data for a complete row of the table;
+    // it's shaped like:
+    // [ { legislative_period_id: "na2007", memberships: [...]  },
+    //   { legislative_period_id: "s2013", memberships: [...]  }, ...  ]
     area.terms = terms;
 
     return area;
