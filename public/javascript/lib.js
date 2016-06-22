@@ -91,6 +91,13 @@ function mungePopolo(popolo) {
         membership.person = personLookup[membership.person_id];
         membership.group = groupLookup[membership.on_behalf_of_id];
       });
+      // Now obj.memberships is an array of all the memberships in a
+      // cell (i.e. all memberships in a particular area during a
+      // particular term). They should be ordered by
+      // date. Underscore's sortBy is stable, so sort by end_date
+      // first, then start_date:
+      obj.memberships = _.sortBy(obj.memberships, function (m) { return m.end_date});
+      obj.memberships = _.sortBy(obj.memberships, function (m) { return m.start_date});
     });
 
     area.terms = terms;
