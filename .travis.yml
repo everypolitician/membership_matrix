@@ -1,0 +1,23 @@
+# "npm test" runs:
+#
+#   node_modules/.bin/mocha-phantomjs public/tests.html
+#
+# ... and that mocha-phantomjs script has a shebang line that runs node.
+# It seems that we need a relatively recent version of node in order for
+# that script's setting of process.exitCode to actually set the exit
+# status code correctly, which is obviously important for telling
+# whether the tests passed or failed!
+
+language: node_js
+node_js:
+  - "4"
+
+install:
+  # There is an issue with random 403 errors when installing phantomjs
+  # from BitBucket; as a workaround you can install it from a different
+  # CDN, which is what the PHANTOMJS_CDNURL environment variable is
+  # specifying:
+  - PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install
+
+script:
+  - npm test
